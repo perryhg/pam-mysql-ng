@@ -1,0 +1,35 @@
+sudo: required
+language: c
+install: sudo apt-get install -qq -y --no-install-recommends libpam0g-dev
+before_script: autoreconf -f -i
+script:
+  - "./.travis/build.sh"
+before_deploy:
+  - "./.travis/pre_deploy.sh"
+  - if [[ ${TRAVIS_TAG} ]]; then export ELASTIC_BEANSTALK_LABEL="${TRAVIS_TAG}"; elif [[ ${TRAVIS_PULL_REQUEST} == 'false' ]]; then export ELASTIC_BEANSTALK_LABEL="${TRAVIS_BRANCH}-${TRAVIS_COMMIT}"; else export ELASTIC_BEANSTALK_LABEL="${TRAVIS_PULL_REQUEST_BRANCH}-${TRAVIS_COMMIT}"; fi
+  - echo "Version label is '${ELASTIC_BEANSTALK_LABEL}'"
+deploy:
+  - provider: s3
+    access_key_id: AKIAJRDVLQO45HD5VDMA
+    secret_access_key:
+      secure: IDeK0DgYtmrgjKh4W+eBHmwfk4B3rneSl30jF3Mfj+cFJGnqO86+eRDXfz66R3eJogacg9w08qTVHJWvDJSlgceU7x6aOdhbQLEt7YKWZ2Nyf2vbtS53xgzmCjs3GOEGJ/wjyy9xGKiunbprI9U+ZczPE4y9odw7hu+g4O3Dre12fCpPgbmbnLjuJxB2r9mQtnGhzkBPzAj/q9dMgnE3BkWfhYxDbr8acxVYE2a85Xuw980Xxp/VrnPvdljyn+UrF+QoxjOaS0ksrNAkPjii/5b95uwAW4aLFuO/TXEgi/Tv8Q26AYEpsULbL9MsKqLsTocpNzwg49xU64HXg8f2CBU4kXKYcXDHhgsyphQghWDCfKhD2PwV0AEr94oCvcTl9oCO7zhbXOb6GLw1EytZlF+A2kSZEtUrBKuz+qPQg8LNn6F9MvXSVp5ITViSZOdXuThIM8StAY9YIsmkw6kw1rUWHjQFs3WYD8imBG9/sDJBFjH93rEBf0PELQxBog0+OLVhCAFmJcHURkaB61lasJAeLggleoNnAKQQOtnX7BewzcMf45Gl7+lijz5P6d7mNsm39APs1itl5zdDZ2Rf5+oT14/5xB/UI77BXwMyFE6HIeauxywF2ZHcMWEzCdouM7uBYh7N1MGYludPNhtE7n9GINF9pa0dtFJA4NTUy4g=
+    bucket: builds.ento.com
+    region: ap-southeast-2
+    upload-dir: ${TRAVIS_REPO_SLUG}/${TRAVIS_BRANCH}
+    local_dir: .travis/build
+    skip_cleanup: true
+    on:
+      repo: marvelig/pam-MySQL
+      all_branches: true
+  - provider: s3
+    access_key_id: AKIAJRDVLQO45HD5VDMA
+    secret_access_key:
+      secure: IDeK0DgYtmrgjKh4W+eBHmwfk4B3rneSl30jF3Mfj+cFJGnqO86+eRDXfz66R3eJogacg9w08qTVHJWvDJSlgceU7x6aOdhbQLEt7YKWZ2Nyf2vbtS53xgzmCjs3GOEGJ/wjyy9xGKiunbprI9U+ZczPE4y9odw7hu+g4O3Dre12fCpPgbmbnLjuJxB2r9mQtnGhzkBPzAj/q9dMgnE3BkWfhYxDbr8acxVYE2a85Xuw980Xxp/VrnPvdljyn+UrF+QoxjOaS0ksrNAkPjii/5b95uwAW4aLFuO/TXEgi/Tv8Q26AYEpsULbL9MsKqLsTocpNzwg49xU64HXg8f2CBU4kXKYcXDHhgsyphQghWDCfKhD2PwV0AEr94oCvcTl9oCO7zhbXOb6GLw1EytZlF+A2kSZEtUrBKuz+qPQg8LNn6F9MvXSVp5ITViSZOdXuThIM8StAY9YIsmkw6kw1rUWHjQFs3WYD8imBG9/sDJBFjH93rEBf0PELQxBog0+OLVhCAFmJcHURkaB61lasJAeLggleoNnAKQQOtnX7BewzcMf45Gl7+lijz5P6d7mNsm39APs1itl5zdDZ2Rf5+oT14/5xB/UI77BXwMyFE6HIeauxywF2ZHcMWEzCdouM7uBYh7N1MGYludPNhtE7n9GINF9pa0dtFJA4NTUy4g=
+    bucket: builds.ento.com
+    region: ap-southeast-2
+    upload-dir: ${TRAVIS_REPO_SLUG}/${TRAVIS_TAG}
+    local_dir: .travis/build
+    skip_cleanup: true
+    on:
+      repo: marvelig/pam-MySQL
+      tags: true

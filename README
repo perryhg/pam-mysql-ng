@@ -59,8 +59,8 @@ host
 	MySQL server is listening.  The following formats are accepted:
 
     1. absolute path to the unix socket (e.g. "/tmp/mysql.sock")
-	2. host name (e.g. "somewhere.example.com")
-	3. host name + port number (e.g. "somewhere.example.com:3306")
+    2. host name (e.g. "somewhere.example.com")
+    3. host name + port number (e.g. "somewhere.example.com:3306")
 
 db
 
@@ -119,11 +119,11 @@ crypt (plain)
        1 (or "Y")     	= Use crypt(3) function.
 
        2 (or "mysql") 	= Use MySQL PASSWORD() function. It is possible
-							that the encryption function used by PAM-MySQL
-							is different from that of the MySQL server, as
-							PAM-MySQL uses the function defined in MySQL's
-							C-client API instead of using PASSWORD() SQL function
-							in the query.
+       that the encryption function used by PAM-MySQL
+       is different from that of the MySQL server, as
+       PAM-MySQL uses the function defined in MySQL's
+       C-client API instead of using PASSWORD() SQL function
+       in the query.
 
        3 (or "md5")   	= Use plain hex MD5.
 
@@ -162,7 +162,7 @@ use_323_passwd (false)
 where
 
     Additional criteria for the query. For example:
-	    [where=Host.name="web" AND User.active=1]
+      [where=Host.name="web" AND User.active=1]
 
 sqllog (false)
 
