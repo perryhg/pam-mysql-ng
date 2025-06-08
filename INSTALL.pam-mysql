@@ -12,10 +12,18 @@ Installation instructions.
    Nigel think the above should do everything necessary but there has
    also been a report of a need to run:
 
+   /*
    libtoolize
    aclocal
    autoheader
    autoreconf -f -i
+   */
+
+   libtoolize --copy --force
+   aclocal
+   autoheader
+   automake --add-missing --copy
+   autoconf
 
    Please open an issue on Github if you can confirm this and I'll
    update this file.
@@ -81,6 +89,9 @@ Installation instructions.
 4. Run "make" to build the module.
         
 5. Run "make install" as root to install the module.
+## if running on x64, make a link
+ln -s /usr/lib64/pam_mysql.so /usr/lib64/security/pam_mysql.so
+ln -s /usr/lib64/pam_mysql.la /usr/lib64/security/pam_mysql.la
 
 6. Make proper changes to an intended configuration file in /etc/pam.d/
    or /etc/pam.conf.
